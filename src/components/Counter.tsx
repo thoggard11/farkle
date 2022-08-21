@@ -9,7 +9,7 @@ import {
   incrementIfOdd,
   selectCount,
 } from "../redux/counterSlice";
-import styles from "./Counter.module.css";
+import styles from "./Counter.module.scss";
 
 export function Counter() {
   const count = useTypedSelector(selectCount);
