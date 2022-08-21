@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createDefaultPlayers } from "../helpers/players";
 import { RootState } from "./store";
 
 const DEFAULT_NUM_OF_PLAYERS = 4;
@@ -7,20 +8,12 @@ export interface Player {
   name: string;
 }
 
-const createPlayer = (index: number) => {
-  return { name: `Player ${index + 1}` };
-};
-
-export interface GameSlice {
+export interface GameStore {
   players: Player[];
 }
 
-const initialState = (): GameSlice => {
-  const players = Array(DEFAULT_NUM_OF_PLAYERS)
-    .fill(null)
-    .map((_el, index) => {
-      return createPlayer(index);
-    });
+const initialState = (): GameStore => {
+  const players = createDefaultPlayers(DEFAULT_NUM_OF_PLAYERS);
 
   return { players };
 };
@@ -28,22 +21,19 @@ const initialState = (): GameSlice => {
 export const gameSlice = createSlice({
   name: "game",
   initialState,
-
+  // The `reducers` field lets us define reducers which are how we edit state in Redux
   reducers: {
     setNumberOfPlayers: (
-      state: GameSlice,
+      state: GameStore,
       { payload: numberOfPlayers }: PayloadAction<number>,
     ) => {
-      state.players = Array(numberOfPlayers)
-        .fill(null)
-        .map((_el, index) => {
-          return createPlayer(index);
-        });
+      state.players = createDefaultPlayers(numberOfPlayers);
     },
   },
 });
 
 // Making selectors below here
+// A selector grabs "selects" a piece of state
 export const selectNumOfPlayers = (state: RootState) =>
   state.game.players.length;
 
