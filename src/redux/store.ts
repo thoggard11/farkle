@@ -1,10 +1,12 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import counterReducer from "../redux/counterSlice";
+import gameSlice from "../redux/gameSlice";
+import counterSlice from "../redux/counterSlice";
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    game: gameSlice.reducer,
+    counter: counterSlice,
   },
 });
 
