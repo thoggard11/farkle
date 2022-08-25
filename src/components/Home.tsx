@@ -27,6 +27,10 @@ const Home: React.FC = () => {
     [dispatch],
   );
 
+  const handleOnClick = useCallback(() => {
+    dispatch(gameSlice.actions.setPage(1));
+  }, [dispatch]);
+
   const buttons = useMemo(
     () =>
       createArrayWithValueOfLength(8).map((_el, index) => {
@@ -35,7 +39,6 @@ const Home: React.FC = () => {
     [],
   );
 
-  console.log("test: " + selectNumOfPlayers);
   return (
     <div>
       <h1>Farkle!</h1>
@@ -54,7 +57,7 @@ const Home: React.FC = () => {
         />
       </h2>
 
-      <button>CONTINUE</button>
+      <button onClick={handleOnClick}>CONTINUE</button>
     </div>
   );
 };
@@ -66,7 +69,18 @@ const PlayerButton: React.FC<{ value: number }> = ({ value }) => {
     dispatch(gameSlice.actions.setNumberOfPlayers(value));
   }, [dispatch, value]);
 
-  return <button onClick={handleClick}>{value}</button>;
+  return (
+    <button
+      className={
+        value === useTypedSelector(selectNumOfPlayers)
+          ? styles.selected
+          : styles.notSelected
+      }
+      onClick={handleClick}
+    >
+      {value}
+    </button>
+  );
 };
 
 export default Home;

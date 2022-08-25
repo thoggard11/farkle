@@ -4,18 +4,25 @@ import { RootState } from "./store";
 
 const DEFAULT_NUM_OF_PLAYERS = 4;
 
+enum Page {
+  HOME,
+  SETUP,
+  GAME,
+}
+
 export interface Player {
   name: string;
 }
 
 export interface GameStore {
+  page: Page;
   maxPoints: number;
   players: Player[];
 }
 
 const initialState = (): GameStore => {
   const players = createDefaultPlayers(DEFAULT_NUM_OF_PLAYERS);
-  return { maxPoints: 10000, players };
+  return { page: Page.HOME, maxPoints: 10000, players };
 };
 
 export const gameSlice = createSlice({
@@ -23,6 +30,9 @@ export const gameSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers which are how we edit state in Redux
   reducers: {
+    setPage: (state: GameStore, { payload: page }: PayloadAction<Page>) => {
+      state.page = page;
+    },
     setMaxPoints: (
       state: GameStore,
       { payload: maxPoints }: PayloadAction<number>,
