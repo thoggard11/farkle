@@ -2,11 +2,12 @@ import React, { useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { createArrayWithValueOfLength } from "../helpers/array";
 import gameSlice, {
-  selectNumOfPlayers,
   selectMaxPoints,
+  selectNumOfPlayers,
+  Page,
 } from "../redux/gameSlice";
-import { useTypedSelector, useTypedDispatch } from "../redux/store";
-import styles from "./Home.module.scss";
+import { useTypedDispatch, useTypedSelector } from "../redux/store";
+import NumOfPlayersButton from "./NumOfPlayersButton";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -28,13 +29,13 @@ const Home: React.FC = () => {
   );
 
   const handleOnClick = useCallback(() => {
-    dispatch(gameSlice.actions.setPage(1));
+    dispatch(gameSlice.actions.setPage(Page.SETUP));
   }, [dispatch]);
 
   const buttons = useMemo(
     () =>
       createArrayWithValueOfLength(8).map((_el, index) => {
-        return <PlayerButton key={index} value={index + 1} />;
+        return <NumOfPlayersButton key={index} value={index + 1} />;
       }),
     [],
   );
@@ -59,27 +60,6 @@ const Home: React.FC = () => {
 
       <button onClick={handleOnClick}>CONTINUE</button>
     </div>
-  );
-};
-
-const PlayerButton: React.FC<{ value: number }> = ({ value }) => {
-  const dispatch = useTypedDispatch();
-
-  const handleClick = useCallback(() => {
-    dispatch(gameSlice.actions.setNumberOfPlayers(value));
-  }, [dispatch, value]);
-
-  return (
-    <button
-      className={
-        value === useTypedSelector(selectNumOfPlayers)
-          ? styles.selected
-          : styles.notSelected
-      }
-      onClick={handleClick}
-    >
-      {value}
-    </button>
   );
 };
 

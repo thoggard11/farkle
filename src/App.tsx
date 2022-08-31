@@ -1,12 +1,12 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import Main from "./components/Main";
 import HowTo from "./components/howTo/HowTo";
 
 const App: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Main />} />
       <Route path="/howto" element={<HowTo />} />
     </Routes>
   );
